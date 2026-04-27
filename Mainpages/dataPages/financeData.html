@@ -49,6 +49,12 @@
         <canvas id="totalExport"></canvas>
     </div>
     <hr>
+    <div class="textBoxMapping">
+        <p>Inflation rates over a span of 1989 to 2025</p>
+    </div>
+    <div class="chartBig">
+        <canvas id="inflationRateChart"></canvas>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -135,6 +141,48 @@
         // getting IDs of the chart divs
         const importTot = document.getElementById('totalImport');
         const exportTot = document.getElementById('totalExport');
+
+        const inflationRateData = '/Datasets/inflation-1989-2025.csv';
+        d3.csv(inflationRateData).then(function (datapoints){
+            const year=[]
+            const inflationRate=[]
+            for (i = 0; i < datapoints.length; i++){
+                year.push(datapoints[i].year)
+                inflationRate.push(datapoints[i].rate)
+            }
+            const inflationRateChartData={
+                labels: year,
+                datasets: [{
+                    label: 'Inflation Rate',
+                    data: inflationRate,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.0,
+                }]
+            }
+            const inflationRateGraph = new Chart(inflateRate, {
+                type: 'line',
+                data: inflationRateChartData,
+                options: {
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Inflation rate in %'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            }
+                        }
+                    },
+                    pointRadius: 3,
+                }
+            })
+        })
+        const inflateRate= document.getElementById('inflationRateChart');
     </script>
     <div>
         <hr>

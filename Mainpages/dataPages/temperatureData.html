@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Temperature Data</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/styles.css">
+    <link href='https://fonts.googleapis.com/css?family=Michroma' rel='stylesheet'>
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+
+<body>
+    <ul class="navigationBar">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/mapping.html">Open Data</a></li>
+        <li class="right"><a href="/about.html">About</a></li>
+    </ul>
+
+    <div class=mappingTitle>
+        <h1>Welcome to the Temperature Data visualization Page!</h1>
+        <p>These charts represent data taken from <a
+                href="https://www.data.gov.uk/collections/environment/weather">The weather data page of the
+                data.gov website</a></p>
+        <hr>
+    </div>
+
+    
+    <div class="chartBig">
+        <canvas id="temperatureMeanAnnual"></canvas>
+    </div>
+    <div class="textBox">
+        <p>
+            The data above represents the mean average temperature across the years 1884 - 2020, representing the largest 
+            time range currently hosted on the website and showing how temperatures have gradually risen over the course of many years
+            in the UK
+        </p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const meanTempData = '/Datasets/uk-mean-temperature.csv'
+        d3.csv(meanTempData).then(function (datapoints) {
+            // Prep the variables and then push data into them.
+            const year = []
+            const meanTemp = []
+
+            for (i = 0; i < datapoints.length; i++) {
+                year.push(datapoints[i].Year)
+                meanTemp.push(datapoints[i]['Annual mean temperature (°C)'])
+            };
+
+            // prep the data for our chart
+            const tempMeanTotal = {
+                labels: year,
+                datasets: [{
+                    label: 'Mean Temp (in celsius)',
+                    data: meanTemp,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1,
+                }]
+            }
+            // draw the chart
+            const tempMeanChart = new Chart(meanTempTot, {
+                type: 'line',
+                data: tempMeanTotal,
+                options: {
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Temperature in celsius'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            }
+                        }
+                    }
+                }
+            })
+
+           
+        })
+        const meanTempTot = document.getElementById('temperatureMeanAnnual'); 
+
+    </script>
+    <div>
+        <hr>
+    </div>
+    <div class=textBox>
+        <p>
+            <u>
+                All data is provided by the UK government at <a href="https://www.data.gov.uk/">The open data project</a>
+            </u>
+        </p>
+    </div>
+</body>
+
+</html>
