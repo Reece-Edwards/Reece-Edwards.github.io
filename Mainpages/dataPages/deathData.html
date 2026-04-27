@@ -12,9 +12,9 @@
 
 <body>
     <ul class="navigationBar">
-        <li><a href="/Mainpages/index.html">Home</a></li>
-        <li><a href="/Mainpages/mapping.html">Open Data</a></li>
-        <li class="right"><a href="/Mainpages/about.html">About us</a></li>
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/mapping.html">Open Data</a></li>
+        <li class="right"><a href="/about.html">About</a></li>
     </ul>
 
     <div class=mappingTitle>
@@ -76,6 +76,7 @@
     <script>
         const DeathChartTotalData = '/Datasets/Deaths-Gender-Eng-Wal-1992-2024.csv'
         d3.csv(DeathChartTotalData).then(function (datapoints) {
+            // Prep the variables and then push data into them.
             const totalDeaths = [];
             const deathYear = [];
             const maleDeaths = [];
@@ -88,7 +89,7 @@
                 femaleDeaths.push(datapoints[i]['Females'])
             };
 
-
+            // prep the data for our chart
             const deathDataTotal = {
                 labels: deathYear,
                 datasets: [{
@@ -99,6 +100,7 @@
                     tension: 0.1,
                 }]
             }
+            // draw the chart
             const deathRateTotal = new Chart(deathTot, {
                 type: 'line',
                 data: deathDataTotal,
@@ -200,12 +202,13 @@
                 maleDeaths.push(datapoints[i].Males)
                 femaleDeaths.push(datapoints[i].Females)
             }
-            console.log(region)
-            console.log(maleDeaths)
-            console.log(femaleDeaths)
+            // **previously had an error with this section, uncomment if logs are needed.
+            //console.log(region)
+            //console.log(maleDeaths)
+            //console.log(femaleDeaths)
             const regionLabels = region;
             const deathRegionData = {
-                
+                // two datasets are needed as the graph used requires two bars, chart.js provides this natively.
                 labels: regionLabels,
                 datasets: [{
                     label: 'Male Deaths',
@@ -230,7 +233,7 @@
                     borderWidth: 1
                 }]
             };
-            
+            // dual bar-chart instead of line chart
             const deathRateRegionChart = new Chart(deathReg, {
                 type: 'bar',
                 data: deathRegionData,
@@ -254,6 +257,7 @@
             })
             
         })
+        // get elementID for drawing chart.
         const deathReg = document.getElementById('deathByRegion');
 
     </script>

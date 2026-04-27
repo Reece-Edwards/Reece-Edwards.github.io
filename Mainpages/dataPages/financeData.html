@@ -12,9 +12,9 @@
 
 <body>
     <ul class="navigationBar">
-        <li><a href="/Mainpages/index.html">Home</a></li>
-        <li><a href="/Mainpages/mapping.html">Open Data</a></li>
-        <li class="right"><a href="/Mainpages/about.html">About</a></li>
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/mapping.html">Open Data</a></li>
+        <li class="right"><a href="/about.html">About</a></li>
     </ul>
 
     <div class=mappingTitle>
@@ -55,7 +55,7 @@
     <script>
         const totalImportExportData = '/Datasets/total-uk-imports-exports.csv';
         d3.csv(totalImportExportData).then(function (datapoints){
-            
+            // Prepare the constants needed for the graphs. Then, push the values from our CSV into them.
             const year = [];
             const imports = [];
             const exports = [];
@@ -64,7 +64,7 @@
                 imports.push(datapoints[i]['imports-billions'])
                 exports.push(datapoints[i]['exports-billions'])
             }
-
+            // prepare import data
             const totalImportData = {
                 labels: year,
                 datasets:[{
@@ -75,7 +75,7 @@
                     tension: 0.0,
                 }]
             }
-
+            // Draw the Import Chart
             const totalImportChart = new Chart(importTot, {
                 type: 'line',
                 data: totalImportData,
@@ -97,7 +97,7 @@
                     pointRadius: 3,
                 }
             })
-        })
+            // Prepare the export chart data
             const totalExportData = {
                 labels: year,
                 datasets:[{
@@ -108,7 +108,7 @@
                     tension: 0.0,
                 }]
             }
-
+            // Draw the export chart
             const totalExportChart = new Chart(exportTot, {
                 type: 'line',
                 data: totalExportData,
@@ -131,7 +131,7 @@
                 }
             })
         })
-
+        // getting IDs of the chart divs
         const importTot = document.getElementById('totalImport');
         const exportTot = document.getElementById('totalExport');
     </script>

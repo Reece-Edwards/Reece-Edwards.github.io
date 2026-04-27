@@ -12,9 +12,9 @@
 
 <body>
     <ul class="navigationBar">
-        <li><a href="/Mainpages/index.html">Home</a></li>
-        <li><a href="/Mainpages/mapping.html">Open Data</a></li>
-        <li class="right"><a href="/Mainpages/about.html">About</a></li>
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/mapping.html">Open Data</a></li>
+        <li class="right"><a href="/about.html">About</a></li>
     </ul>
 
     <div class=mappingTitle>
@@ -58,7 +58,7 @@
     <script>
         const BirthChartTotalData = '/Datasets/birthCount-Eng+Wales_1938-2024.csv';
         d3.csv(BirthChartTotalData).then(function (datapoints) {
-          
+            // make variables then push data into them
             const birthYear= [];
             const birthCount = [];
 
@@ -67,7 +67,7 @@
                 birthCount.push(datapoints[i]['Number of Live Births'])
             };
 
-
+            // prep the data for the chart
             const birthDataTotal = {
                 labels: birthYear,
                 datasets: [{
@@ -78,6 +78,7 @@
                     tension: 0.1,
                 }]
             }
+            // draw chart
             const deathRateTotal = new Chart(birthTot, {
                 type: 'line',
                 data: birthDataTotal,
@@ -101,8 +102,12 @@
 
           
         })
+        // get element ID for drawing chart
         const birthTot = document.getElementById('birthRateTotal');
 
+        // the next chart made is a bar chart
+        // this chart goes into the negatives which is handled natively by chart.js
+        // used to show off more functionality of the site, and the library used
         const fertilityData = '/Datasets/Age_specific_fertility_rate_mother+father_2024+2023.csv';
         d3.csv(fertilityData).then(function (datapoints){
             const ageGroup = [];

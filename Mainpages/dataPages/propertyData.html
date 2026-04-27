@@ -12,9 +12,9 @@
 
 <body>
     <ul class="navigationBar">
-        <li><a href="/Mainpages/index.html">Home</a></li>
-        <li><a href="/Mainpages/mapping.html">Open Data</a></li>
-        <li class="right"><a href="/Mainpages/about.html">About</a></li>
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/mapping.html">Open Data</a></li>
+        <li class="right"><a href="/about.html">About</a></li>
     </ul>
 
     <div class=mappingTitle>
@@ -81,6 +81,7 @@
     <script>
         const housingPriceData = '/Datasets/average-house-prices-england.csv';
         d3.csv(housingPriceData).then(function (datapoints){
+            // prepare the variables used by the graphs and push values into them
             const housingPriceDate = [];
             const housingAveragePrice = [];
 
@@ -88,7 +89,7 @@
                 housingPriceDate.push(datapoints[i].Date)
                 housingAveragePrice.push(datapoints[i]['Average_Price'])
             }
-
+            // prep the house price data for England
             const housePriceEngData = {
                 labels: housingPriceDate,
                 datasets:[{
@@ -99,7 +100,7 @@
                     tension: 0.0,
                 }]
             }
-
+            // draw the eng house price chart
             const housingPriceEngChart = new Chart(houseEngTot, {
                 type: 'line',
                 data: housePriceEngData,
@@ -122,7 +123,10 @@
                 }
             })
         })
+        // get the house price eng elementID
         const houseEngTot = document.getElementById('housingPriceEng');
+
+        // Repeat this two more times but for Scotland and Wales, comments would be identical and unnecessary.
 
         const housingPriceDataWales = '/Datasets/average-house-prices-wales.csv';
         d3.csv(housingPriceDataWales).then(function (datapoints){
