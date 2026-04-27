@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Death Data</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/styles.css">
+    <link href='https://fonts.googleapis.com/css?family=Michroma' rel='stylesheet'>
+
+</head>
+
+<body>
+    <ul class="navigationBar">
+        <li><a href="/Mainpages/index.html">Home</a></li>
+        <li><a href="/Mainpages/mapping.html">Open Data</a></li>
+        <li class="right"><a href="/Mainpages/about.html">About us</a></li>
+    </ul>
+
+    <div class=mappingTitle>
+        <h1>Welcome to the Death Data visualization Page!</h1>
+        <p>These charts represent data taken from <a
+                href="https://www.data.gov.uk/collections/people/deaths">The death data page of the
+                data.gov website</a></p>
+        <hr>
+    </div>
+
+    
+    <div class="chartBig">
+        <canvas id="deathRateTotal"></canvas>
+    </div>
+    <div class="textBox">
+        <p>
+            The data above represents the total number of deaths in Wales and England, from 1992 - 2024. This dataset contains
+            both female and male death rates but this represents the total combined number.
+            <br><br>
+            The following graphs will show the individual male and female death counts.
+        </p>
+    </div>
+    <hr>
+    <div class="textBoxMapping"><p>Deaths Divided By Gender</p></div>
+    <div class="chartFlex">
+        <div class="chart">
+            <canvas id="deathRateMale"></canvas>
+        </div>
+        <div class="chart">
+            <canvas id="deathRateFemale"></canvas>
+        </div>
+    </div>
+    <div class="textBoxMapping">  
+        <p>
+            The data above shows us that whilst initially early in the 90s, the number of female 
+            deaths were typically above the death rate of Males, the amount of deaths for females never 
+            reached the same peak the male death count reached
+        </p>
+    </div>
+    <hr>
+    <div class="textBoxMapping">
+        <p>The following data represents the UK's ASMR's (Age-standardised mortality rates)
+            rate by region (including wales)
+        </p>
+    </div>
+    <div class="chartBig">
+        <canvas id="deathByRegion"></canvas>
+    </div>
+    <div class="textBoxMapping">
+        <p>As can be seen above, consistently throughout the regions, males had a higher
+           ASMR rate than females
+        </p>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const DeathChartTotalData = '/Datasets/Deaths-Gender-Eng-Wal-1992-2024.csv'
+        d3.csv(DeathChartTotalData).then(function (datapoints) {
+            const totalDeaths = [];
+            const deathYear = [];
+            const maleDeaths = [];
+            const femaleDeaths = [];
+
+            for (i = 0; i < datapoints.length; i++) {
+                deathYear.push(datapoints[i].Year)
+                totalDeaths.push(datapoints[i]['Total'])
+                maleDeaths.push(datapoints[i]['Males'])
+                femaleDeaths.push(datapoints[i]['Females'])
+            };
+
+
+            const deathDataTotal = {
+                labels: deathYear,
+                datasets: [{
+                    label: 'Deaths',
+                    data: totalDeaths,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1,
+                }]
+            }
+            const deathRateTotal = new Chart(deathTot, {
+                type: 'line',
+                data: deathDataTotal,
+                options: {
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Number of Deaths'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            }
+                        }
+                    }
+                }
+            })
+
+            const deathDataMale = {
+                labels: deathYear,
+                datasets: [{
+                    label: 'Male Deaths',
+                    data: maleDeaths,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1,
+                }]
+            }
+
+            const deathRateMale = new Chart(deathMal, {
+                type: 'line',
+                data: deathDataMale,
+                options: {
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Number of Male Deaths'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            }
+                        }
+                    },
+                    aspectRatio: 1,
+                }
+            })
+            const deathDataFemale = {
+                labels: deathYear,
+                datasets: [{
+                    label: 'Female Deaths',
+                    data: femaleDeaths,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1,
+                }]
+            }
+            const deathRateFemale = new Chart(deathFem, {
+                type: 'line',
+                data: deathDataFemale,
+                options: {
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Number of Female Deaths'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            }
+                        }
+                    },
+                    aspectRatio: 1,
+                }
+            })
+
+        })
+        const deathMal = document.getElementById('deathRateMale');
+        const deathFem = document.getElementById('deathRateFemale');
+        const deathTot = document.getElementById('deathRateTotal');
+        
+        const DeathChartRegionData = '/Datasets/DeathByRegions_2024.csv'
+        d3.csv(DeathChartRegionData).then(function (datapoints){
+            const region = [];
+            const maleDeaths = [];
+            const femaleDeaths = [];
+
+            for (i = 0; i < datapoints.length; i++){
+                region.push(datapoints[i].Region)
+                maleDeaths.push(datapoints[i].Males)
+                femaleDeaths.push(datapoints[i].Females)
+            }
+            console.log(region)
+            console.log(maleDeaths)
+            console.log(femaleDeaths)
+            const regionLabels = region;
+            const deathRegionData = {
+                
+                labels: regionLabels,
+                datasets: [{
+                    label: 'Male Deaths',
+                    data: maleDeaths,
+                    backgroundColor: [
+                        'rgb(37, 150, 190, 0.2)'
+                    ],
+                    borderColor:[
+                        'rgb(37, 150, 190)'
+                    ],
+                    borderWidth: 1
+                },
+                {
+                    label: 'Female Deaths',
+                    data: femaleDeaths,
+                    backgroundColor: [
+                        'rgb(191, 85, 36, 0.2)'
+                    ],
+                    borderColor:[
+                        'rgb(191, 85, 36)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+            
+            const deathRateRegionChart = new Chart(deathReg, {
+                type: 'bar',
+                data: deathRegionData,
+                options: {
+                    scales: {
+                        y:{
+                            beginAtZero: true,
+                            title:{
+                                display:true,
+                                text: "ASMR (Age-standardised mortality rates)"
+                            }
+                        },
+                        x:{
+                            title:{
+                                display:true,
+                                text: "Region",
+                            }
+                        },
+                    }
+                }
+            })
+            
+        })
+        const deathReg = document.getElementById('deathByRegion');
+
+    </script>
+    <div>
+        <hr>
+    </div>
+    <div class=textBox>
+        <p>
+            <u>
+                All data is provided by the UK government at <a href="https://www.data.gov.uk/">The open data project</a>
+            </u>
+        </p>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Property Data</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/styles.css">
+    <link href='https://fonts.googleapis.com/css?family=Michroma' rel='stylesheet'>
+
+</head>
+
+<body>
+    <ul class="navigationBar">
+        <li><a href="/Mainpages/index.html">Home</a></li>
+        <li><a href="/Mainpages/mapping.html">Open Data</a></li>
+        <li class="right"><a href="/Mainpages/about.html">About</a></li>
+    </ul>
+
+    <div class=mappingTitle>
+        <h1>Welcome to the Housing Price Data visualization Page!</h1>
+        <p>These charts represent data taken from <a
+                href="https://www.data.gov.uk/collections/land-and-property/uk-house-prices">The land and property data page of the
+                data.gov website</a></p>
+        <hr>
+    </div>
+
+    
+    <div class="textBoxMapping">
+        <p>
+            These following graphs all represent the average house prices in the UK across various regions. each graph starts in 1968, and ends
+            in 2025. As the graph is updated by month looking at individual data points is difficult. These graphs are instead to show a larger trend 
+            in housing prices across the Country!
+        </p>
+    </div>
+    <hr>
+    <br><br>
+    <div class="chartBig">
+        <canvas id="housingPriceEng"></canvas>
+    </div>
+    
+    <div class="textBoxMapping">
+        <p>
+            This data represents some bs about housing in England
+        </p>
+    </div>
+    
+    <hr>
+
+    <div class="chartBig">
+        <canvas id="housingPriceWales"></canvas>
+    </div>
+    
+    <div class="textBoxMapping">
+        <p>
+            This data represents some bs about housing in Wales
+        </p>
+    </div>
+    <hr>
+    <div class="chartBig">
+        <canvas id="housingPriceScot"></canvas>
+    </div>
+    
+    <div class="textBoxMapping">
+        <p>
+            This data represents some bs about housing in Scotland
+        </p>
+    </div>
+    <hr>
+    <div class="textBox">
+        <p>
+            All of these graphs show an upwards trend of house prices that has only gotten steeper over the decades 
+            Whilst there have been small dips in prices they don't last long and quickly rise again. With the numerous data 
+            points provided it'd be easy to gather conclusions if necessary.
+        </p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const housingPriceData = '/Datasets/average-house-prices-england.csv';
+        d3.csv(housingPriceData).then(function (datapoints){
+            const housingPriceDate = [];
+            const housingAveragePrice = [];
+
+            for (i = 0; i < datapoints.length; i++){
+                housingPriceDate.push(datapoints[i].Date)
+                housingAveragePrice.push(datapoints[i]['Average_Price'])
+            }
+
+            const housePriceEngData = {
+                labels: housingPriceDate,
+                datasets:[{
+                    label: 'Average Price £',
+                    data: housingAveragePrice,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.0,
+                }]
+            }
+
+            const housingPriceEngChart = new Chart(houseEngTot, {
+                type: 'line',
+                data: housePriceEngData,
+                options: {
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Average Price in £'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            }
+                        }
+                    },
+                    pointRadius: 1,
+                }
+            })
+        })
+        const houseEngTot = document.getElementById('housingPriceEng');
+
+        const housingPriceDataWales = '/Datasets/average-house-prices-wales.csv';
+        d3.csv(housingPriceDataWales).then(function (datapoints){
+            const housingPriceDateWales = [];
+            const housingAveragePriceWales = [];
+
+            for (i = 0; i < datapoints.length; i++){
+                housingPriceDateWales.push(datapoints[i].Date)
+                housingAveragePriceWales.push(datapoints[i]['Average_Price'])
+            }
+
+            const housePriceWalesData = {
+                labels: housingPriceDateWales,
+                datasets:[{
+                    label: 'Average Price £',
+                    data: housingAveragePriceWales,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.0,
+                }]
+            }
+
+            const housingPriceWalesChart = new Chart(houseWalesTot, {
+                type: 'line',
+                data: housePriceWalesData,
+                options: {
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Average Price in £'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            }
+                        }
+                    },
+                    pointRadius: 1,
+                }
+            })
+        })
+        const houseWalesTot = document.getElementById('housingPriceWales');
+
+        const housingPriceDataScot = '/Datasets/average-house-prices-Scotland.csv';
+        d3.csv(housingPriceDataScot).then(function (datapoints){
+            const housingPriceDateScot = [];
+            const housingAveragePriceScot = [];
+
+            for (i = 0; i < datapoints.length; i++){
+                housingPriceDateScot.push(datapoints[i].Date)
+                housingAveragePriceScot.push(datapoints[i]['Average_Price'])
+            }
+
+            const housePriceScotData = {
+                labels: housingPriceDateScot,
+                datasets:[{
+                    label: 'Average Price £',
+                    data: housingAveragePriceScot,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.0,
+                }]
+            }
+
+            const housingPriceScotChart = new Chart(houseScotTot, {
+                type: 'line',
+                data: housePriceScotData,
+                options: {
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Average Price in £'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            }
+                        }
+                    },
+                    pointRadius: 1,
+                }
+            })
+        })
+        const houseScotTot = document.getElementById('housingPriceScot');
+       
+
+    </script>
+    <div>
+        <hr>
+    </div>
+    <div class=textBox>
+        <p>
+            <u>
+                All data is provided by the UK government at <a href="https://www.data.gov.uk/">The open data project</a>
+            </u>
+        </p>
+    </div>
+</body>
+
+</html>

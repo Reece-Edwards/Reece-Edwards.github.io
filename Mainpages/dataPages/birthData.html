@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Birth Data</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/styles.css">
+    <link href='https://fonts.googleapis.com/css?family=Michroma' rel='stylesheet'>
+
+</head>
+
+<body>
+    <ul class="navigationBar">
+        <li><a href="/Mainpages/index.html">Home</a></li>
+        <li><a href="/Mainpages/mapping.html">Open Data</a></li>
+        <li class="right"><a href="/Mainpages/about.html">About</a></li>
+    </ul>
+
+    <div class=mappingTitle>
+        <h1>Welcome to the Birth Data visualization Page!</h1>
+        <p>These charts represent data taken from <a
+                href="https://www.data.gov.uk/collections/people/births">The birth data page of the
+                data.gov website</a></p>
+        <hr>
+    </div>
+
+    
+    <div class="chartBig">
+        <canvas id="birthRateTotal"></canvas>
+    </div>
+    <div class="textBox">
+        <p>
+            The data above shows the number of live births occurring in England & Wales from
+            1938 to 2024, showing a sharp upwards trend in 1942 to 1947, before it gradually began to
+            trend downwards once again.
+        </p>
+    </div>
+    <hr>
+    <div class="textBoxMapping">
+        <p>Fertility Rate Difference Between 2023 - 2024 in England & Wales</p>
+    </div>
+    <div class="chartBig">
+        <canvas id="fertilityRateChart20232024"></canvas>
+    </div>
+    <div class="textBoxMapping">
+        <p>
+            The chart above shows a change in fertility rates amongst Mothers and Fathers across Wales
+            and England over the course of a year (2023 - 2024).
+            <br><br>
+            *The age group 40 to 44 represents the ages 40+ for MOTHERS only. 
+        </p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const BirthChartTotalData = '/Datasets/birthCount-Eng+Wales_1938-2024.csv';
+        d3.csv(BirthChartTotalData).then(function (datapoints) {
+          
+            const birthYear= [];
+            const birthCount = [];
+
+            for (i = 0; i < datapoints.length; i++) {
+                birthYear.push(datapoints[i].Year)
+                birthCount.push(datapoints[i]['Number of Live Births'])
+            };
+
+
+            const birthDataTotal = {
+                labels: birthYear,
+                datasets: [{
+                    label: 'Births',
+                    data: birthCount,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1,
+                }]
+            }
+            const deathRateTotal = new Chart(birthTot, {
+                type: 'line',
+                data: birthDataTotal,
+                options: {
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Number of Births'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            }
+                        }
+                    }
+                }
+            })
+
+          
+        })
+        const birthTot = document.getElementById('birthRateTotal');
+
+        const fertilityData = '/Datasets/Age_specific_fertility_rate_mother+father_2024+2023.csv';
+        d3.csv(fertilityData).then(function (datapoints){
+            const ageGroup = [];
+            const motherFertility = [];
+            const fatherFertility = [];
+            for (i = 0; i < datapoints.length; i++){
+                ageGroup.push(datapoints[i]['Age Group'])
+                motherFertility.push(datapoints[i].Mothers)
+                fatherFertility.push(datapoints[i].Fathers)
+            }
+
+            const birthDataTotal = {
+                labels: ageGroup,
+                datasets: [{
+                    label: 'Father Fertility',
+                    data: fatherFertility,
+                    backgroundColor: [
+                        'rgb(37, 150, 190, 0.2)'
+                    ],
+                    borderColor:[
+                        'rgb(37, 150, 190)'
+                    ],
+                    borderWidth: 1
+                },
+                {
+                    label: 'Mother Fertility',
+                    data: motherFertility,
+                    backgroundColor: [
+                        'rgb(191, 85, 36, 0.2)'
+                    ],
+                    borderColor:[
+                        'rgb(191, 85, 36)'
+                    ],
+                    borderWidth: 1
+                }]
+            }
+
+            const fertilityRateChart = new Chart(fertiliRate, {
+                type: 'bar',
+                data: birthDataTotal,
+                options: {
+                    scales: {
+                        y: {
+                            title: {
+                                display: false,
+                                text: 'Difference in ASFR'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Age Group'
+                            }
+                        }
+                    },
+                    order: 4,
+                }
+            })
+        })
+
+        const fertiliRate = document.getElementById('fertilityRateChart20232024');
+       
+
+    </script>
+    <div>
+        <hr>
+    </div>
+    <div class=textBox>
+        <p>
+            <u>
+                All data is provided by the UK government at <a href="https://www.data.gov.uk/">The open data project</a>
+            </u>
+        </p>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Woodland Data</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/styles.css">
+    <link href='https://fonts.googleapis.com/css?family=Michroma' rel='stylesheet'>
+
+</head>
+
+<body>
+    <ul class="navigationBar">
+        <li><a href="/Mainpages/index.html">Home</a></li>
+        <li><a href="/Mainpages/mapping.html">Open Data</a></li>
+        <li class="right"><a href="/Mainpages/about.html">About</a></li>
+    </ul>
+
+    <div class=mappingTitle>
+        <h1>Welcome to the Woodland Data visualization Page!</h1>
+        <p>These charts represent data taken from <a
+                href="https://www.data.gov.uk/collections/environment/forest-and-woodlands">The woodland page of the
+                data.gov website</a></p>
+        <hr>
+    </div>
+
+    <div class="textBox">
+        <p>Total woodland over the years (in thousand hectares)</p>
+    </div>
+    <div class="chartBig">
+        <canvas id="woodlandTotal"></canvas>
+    </div>
+    <div class="textBox">
+        <p>The data above represents how many thousand hectares of woodland the UK has across its lands over the given years.
+           this data set is provided in graph form by the data.gov website, and is the first overlook into national woodland statistics
+           one can obtain. 
+        </p>
+    </div>
+    <hr>
+    <div class="textBox">
+        <p>Distribution of - woodland : non-woodland</p>
+    </div>
+    <div class="chartFlex">
+        <div class="chart">
+            <canvas id="WoodChart2022"></canvas>
+        </div>
+        <div class="chart">
+            <canvas id="WoodChart2023"></canvas>
+        </div>
+        <div class="chart">
+            <canvas id="WoodChart2024"></canvas>
+        </div>
+    </div>
+    <div class="textBox">
+        <p>The three graphs above represent the area_hectares of woodland vs non-woodland in the UK from 2022 to 2024.
+           All three datasets were cleaned by me by hand, but all three "uncleaned" datasets in their entirety are provided under the "/Datasets/uncleaned-datasets" folder.
+           <br><br>
+           From what we can see in these three graphs, and the graph provided at the top we see a clear trend that the UK as a whole is slowly
+           gaining more woodland area which in the long-run should aid in the fight against climate change.
+        </p>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const woodChartData = '/Datasets/woodland-area.csv'
+        d3.csv(woodChartData).then(function (datapoints) {
+            // Prepare variables and push values
+            const totalHectares = [];
+            const woodYear = [];
+            for (i = 0; i < datapoints.length; i++) {
+                woodYear.push(datapoints[i].Year)
+                totalHectares.push(datapoints[i]['UK total (thousand hectares)'])
+            };
+
+            // prepare the data for the woodland coverage chart
+            const woodData = {
+                labels: woodYear,
+                datasets: [{
+                    label: 'Thousand Hectares',
+                    data: totalHectares,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1,
+                }]
+            }
+            // draw our prepared chart
+            const woodlandTotal = new Chart(woodTot, {
+                type: 'line',
+                data: woodData,
+                options: {
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Total Woodland (Thousand Hectares)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            }
+                        }
+                    }
+                }
+            })
+        })
+
+        // repeat the previous steps but for woodland vs nonwoodland coverage chart instead, excluding repetitive comments
+        const hectareData2022 = '/Datasets/National_Forest_Inventory_England_2022_woodlandvsnonwoodland.csv'
+        // I use d3's CSV parser to get the data from the datasets, this is expanded upon in the report
+        d3.csv(hectareData2022).then(function (datapoints) {
+            const areaHA2022 = [];
+            const category2022 = [];
+            for (i = 0; i < datapoints.length; i++) {
+                category2022.push(datapoints[i].category)
+                areaHA2022.push(datapoints[i].area_ha)
+            };
+            const woodlandData2022 = {
+                labels: category2022,
+                datasets: [{
+                    label: 'Area_Hectares',
+                    data: areaHA2022,
+                    backgroundColor: [
+                        'rgb(214, 125, 84)',
+                        'rgb(84, 199, 214)'
+                    ],
+                    hoverOffset: 4
+                }]
+
+            }
+            // multiple types of charts are used, whilst line charts are the most typical due to the data provided
+            // doughnut charts are also used to show other visualizations of data.
+            const WoodChart2022 = new Chart(woodChar2022, {
+                type: 'doughnut',
+                data: woodlandData2022,
+            })
+        })
+
+
+        const hectareData2023 = '/Datasets/National_Forest_Inventory_England_2023_WoodlandvsNonWoodland.csv'
+        d3.csv(hectareData2023).then(function (datapoints) {
+            const areaHA2023 = [];
+            const category2023 = [];
+            for (i = 0; i < datapoints.length; i++) {
+                category2023.push(datapoints[i].Category)
+                areaHA2023.push(datapoints[i].area_ha)
+            };
+
+            const woodlandData2023 = {
+                labels: category2023,
+                datasets: [{
+                    label: 'Area_Hectares',
+                    data: areaHA2023,
+                    backgroundColor: [
+                        'rgb(214, 125, 84)',
+                        'rgb(84, 199, 214)'
+                    ],
+                    hoverOffset: 4
+                }]
+            };
+            const WoodChart2023 = new Chart(woodChar2023, {
+                type: 'doughnut',
+                data: woodlandData2023,
+            });
+        })
+
+        const hectareData2024 = '/Datasets/National_Forest_Inventory_England_2024_woodlandvsnonwoodland.csv'
+        d3.csv(hectareData2024).then(function (datapoints) {
+            const areaHA2024 = [];
+            const category2024 = [];
+            for (i = 0; i < datapoints.length; i++) {
+                category2024.push(datapoints[i].category)
+                areaHA2024.push(datapoints[i].area_ha)
+            };
+            const woodlandData2024 = {
+                labels: category2024,
+                datasets: [{
+                    label: 'Area_Hectares',
+                    data: areaHA2024,
+                    backgroundColor: [
+                        'rgb(214, 125, 84)',
+                        'rgb(84, 199, 214)'
+                    ],
+                    hoverOffset: 4
+                }]
+            }
+            const WoodChart2024 = new Chart(woodChar2024, {
+                type: 'doughnut',
+                data: woodlandData2024,
+            })
+        });
+
+        // get the element ID of our graphs, used in the drawing section.
+        const woodTot = document.getElementById('woodlandTotal');
+        const woodChar2022 = document.getElementById('WoodChart2022');
+        const woodChar2023 = document.getElementById('WoodChart2023');
+        const woodChar2024 = document.getElementById('WoodChart2024');
+    </script>
+    <div>
+        <hr>
+    </div>
+    <div class=textBox>
+        <p>
+            <u>
+                All data is provided by the UK government at <a href="https://www.data.gov.uk/">The open data project</a>
+            </u>
+        </p>
+    </div>
+</body>
+
+</html>

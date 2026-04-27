@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Data Set Selector</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/styles.css">
+        <link href='https://fonts.googleapis.com/css?family=Michroma' rel='stylesheet'>
+    </head>
+
+    <body>
+        <ul class="navigationBar">
+            <li><a href="/Mainpages/index.html">Home</a></li>
+            <li><a class="active">Open Data</a></li>
+            <li class="right"><a href="/Mainpages/about.html">About</a></li>
+        </ul>
+
+        <div class="textBoxMapping">
+            <p>Here you will find a small variety of options to look through.</p>
+        </div>
+        <br><hr>
+        <div class="textBoxMapping">
+            <p>Environmental Datasets</p>
+        </div>
+        <br>
+        <div class="dataBtns">
+            <button class="dataButton" onclick="document.location='/Mainpages/dataPages/woodlandArea.html'">Woodland Area</button>
+            <button class="dataButton" onclick="document.location='/Mainpages/dataPages/airQuality.html'">Air Quality</button>
+        </div>
+        <div class="textBoxMapping">
+            <p>Birth / Deaths Datasets</p>
+        </div>
+        <br>
+        <div class="dataBtns">
+            <button class="dataButton" onclick="document.location='/Mainpages/dataPages/birthData.html'">Births</button>
+            <button class="dataButton" onclick="document.location='/Mainpages/dataPages/deathData.html'">Deaths</button>
+        </div>
+        <div class="textBoxMapping">
+            <p>
+                Property and Finances
+            </p>
+        </div>
+        <br>
+        <div class="dataBtns">
+            <button class="dataButton" onclick="document.location='/Mainpages/dataPages/propertyData.html'">Property</button>
+            <button class="dataButton" onclick="document.location='/Mainpages/dataPages/financeData.html'">Finances</button>
+        </div>
+</html>

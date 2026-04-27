@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Finance Data</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/styles.css">
+    <link href='https://fonts.googleapis.com/css?family=Michroma' rel='stylesheet'>
+
+</head>
+
+<body>
+    <ul class="navigationBar">
+        <li><a href="/Mainpages/index.html">Home</a></li>
+        <li><a href="/Mainpages/mapping.html">Open Data</a></li>
+        <li class="right"><a href="/Mainpages/about.html">About</a></li>
+    </ul>
+
+    <div class=mappingTitle>
+        <h1>Welcome to the Finance Data visualization Page!</h1>
+        <p>These charts represent data taken from <a
+                href="https://www.data.gov.uk/collections/business-and-economy/uk-trade">The business and economy data page of the
+                data.gov website</a></p>
+        <hr>
+    </div>
+
+    
+    <div class="textBoxMapping">
+        <p>
+            The following graphs cover the imports and exports of the UK as well as inflation rates over the years. The first section 
+            of graphs will cover the imports and exports separately, and then the third and final graph will focus on inflation rates.
+        </p>
+    </div>
+    <hr>
+    <br><br>
+    <div class="textBoxMapping">
+        <p>The Total £ spent on imports over a 15 year time span</p>
+    </div>
+    <div class="chartBig">
+        <canvas id="totalImport"></canvas>
+    </div>
+    <hr>
+        <div class="textBoxMapping">
+        <p>The Total £ gained on exports over a 15 year time span</p>
+    </div>
+    <div class="chartBig">
+        <canvas id="totalExport"></canvas>
+    </div>
+    <hr>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const totalImportExportData = '/Datasets/total-uk-imports-exports.csv';
+        d3.csv(totalImportExportData).then(function (datapoints){
+            
+            const year = [];
+            const imports = [];
+            const exports = [];
+            for (i = 0; i < datapoints.length; i++){
+                year.push(datapoints[i].year)
+                imports.push(datapoints[i]['imports-billions'])
+                exports.push(datapoints[i]['exports-billions'])
+            }
+
+            const totalImportData = {
+                labels: year,
+                datasets:[{
+                    label: 'Billions of £ spent on import',
+                    data: imports,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.0,
+                }]
+            }
+
+            const totalImportChart = new Chart(importTot, {
+                type: 'line',
+                data: totalImportData,
+                options: {
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Imports in £bn'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            }
+                        }
+                    },
+                    pointRadius: 3,
+                }
+            })
+        })
+            const totalExportData = {
+                labels: year,
+                datasets:[{
+                    label: 'Billions of £ gained on export',
+                    data: exports,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.0,
+                }]
+            }
+
+            const totalExportChart = new Chart(exportTot, {
+                type: 'line',
+                data: totalExportData,
+                options: {
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Exports in £bn'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            }
+                        }
+                    },
+                    pointRadius: 3,
+                }
+            })
+        })
+
+        const importTot = document.getElementById('totalImport');
+        const exportTot = document.getElementById('totalExport');
+    </script>
+    <div>
+        <hr>
+    </div>
+    <div class=textBox>
+        <p>
+            <u>
+                All data is provided by the UK government at <a href="https://www.data.gov.uk/">The open data project</a>
+            </u>
+        </p>
+    </div>
+</body>
+
+</html>

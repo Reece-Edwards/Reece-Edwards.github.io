@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Air Quality Data</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/styles.css">
+    <link href='https://fonts.googleapis.com/css?family=Michroma' rel='stylesheet'>
+
+</head>
+
+<body>
+    <ul class="navigationBar">
+        <li><a href="/Mainpages/index.html">Home</a></li>
+        <li><a href="/Mainpages/mapping.html">Open Data</a></li>
+        <li class="right"><a href="/Mainpages/about.html">About us</a></li>
+    </ul>
+
+    <div class=mappingTitle>
+        <h1>Welcome to the air quality Data visualization Page!</h1>
+        <p>These charts represent data taken from <a
+                href="https://www.data.gov.uk/collections/environment/air-quality">The air quality page of the
+                data.gov website</a></p>
+        <hr>
+    </div>
+
+    <div class="textBox">
+        <p>Mean Number of days per urban site when air pollution was moderate or higher in the UK 2010-2024</p>
+    </div>
+    <div class="chartBig">
+        <canvas id="airQualityYear2010-2024"></canvas>
+    </div>
+    <div class="textBox">
+        <p>
+            This chart represents the mean number of days the UK's air pollution as considered "Moderate" or higher
+            with a yearly range of 2010 - 2024, showing a sharp decline after the year 2011, and an even sharper decline
+            in the year 2021, representing the UK lockdown.
+            <br><br>
+            This sharp decline shows a great improvement to UK air quality and overall a look into how we're slowly fixing the 
+            environment over time.
+        </p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   
+    <script>
+        const airQualData = '/Datasets/air-qualitytotal2010-2024.csv'
+        d3.csv(airQualData).then(function (datapoints){
+            const year = [];
+            const meanDays = [];
+            for(i = 0; i < datapoints.length; i++){
+                year.push(datapoints[i].Year)
+                meanDays.push(datapoints[i]['Mean number of days with moderate or above pollution'])
+            }
+            const airQualChartData = {
+                labels: year,
+                datasets: [{
+                    label: 'Mean Days',
+                    data: meanDays,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1,
+                }]
+            }
+            const airQualTotal = new Chart(airTot, {
+                type: 'line',
+                data: airQualChartData,
+                options: {
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Mean Days Where Air Pollution Was "Moderate" Or Higher'
+                            }
+                        },
+                        x: {
+                            title:{
+                                display: true,
+                                text: 'Year',
+                            }
+                        }
+                    }
+                }
+            })
+        });
+        const airTot = document.getElementById('airQualityYear2010-2024');
+    </script>
+    <div>
+        <hr>
+    </div>
+    <div class=textBox>
+        <p>
+            <u>
+                All data is provided by the UK government at <a href="https://www.data.gov.uk/">The open data project</a>
+            </u>
+        </p>
+    </div>
+</body>
+
+</html>

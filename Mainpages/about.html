@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!--Standard HTML + CSS is used, should work on any device.-->
+    <head>
+        <title>About The Project</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/styles.css">
+        <link href='https://fonts.googleapis.com/css?family=Michroma' rel='stylesheet'>
+
+    </head>
+
+    <body>
+        <ul class="navigationBar">
+            <li><a href="/Mainpages/index.html">Home</a></li>
+            <li><a href="/Mainpages/mapping.html">Open Data</a></li>
+            <li class="right"><a class="active right">About</a></li>
+        </ul>
+
+
+        <div class="textBox">
+            <h1>Mapping The Open Government Data</h1>
+            <p> 
+                This is my website which uses the Chart.js library in
+                order to generate graphics relating to data provided by the UK government.
+                This data is publicly available at <a href="https://www.data.gov.uk/">The .gov website</a>
+                <br><br>
+                This project is both an effort into exploring the limits of my own skills when it comes to
+                handling big projects and web design, and also learn how to manage a personal project, and
+                handle technologies not provided or taught by Aston University.
+                <br><br>
+                Various areas of data are covered, from birth rates, to house prices, to how much coverage the woods of the UK 
+                has. This is to show the flexibility of the project, and the Chart.JS library. For this project I decided to forego 
+                my initial idea of a "business owner" client, and instead focused on a client interested in the broad data provided by 
+                the UK Government, with this site being made to visualize all the various aspects of that data
+                <br><br>
+                Obviously, not EVERY part of the data is visualized, but the website is built to be expandable to later acommodate those
+                additional data sets.
+            </p>
+        </div>
+        <div class="textBox">
+            <h1>More About The Project</h1>
+            <p>
+                This project as described before aims to map out a selected part of the Open Government Data.
+                This data was selected and curated to provide a high quality example of what this project 
+                is capable of, as there is only so much time available to make the website work. It is designed
+                to be scalable, with the ability to add new charts and graphs with more data as necessary.
+                <br><br>
+                The website is simple, using standard HTML and CSS to keep complexity to a minimum, alongside this 
+                there are no features such as user accounts or ways to add / modify data yourself. These choices were made
+                as I decided early on the project that filling the project with unnecessary bloat would do nothing but draw attention
+                away from what this project was started for. 
+                <br><br>
+                The website is designed to be as light weight as possible, in a live server scenario, the data provided by the Government 
+                website would be held on a database externally, instead of locally within the project. And as previously mentioned, this website
+                uses Chart.js to create the charts and graphs used for data visualization.  
+            </p>
+        </div>
+        <div class="textBox">
+            <h1>Limitations</h1>
+            <p>There has been one main hiccup when it comes to developing this project. The data provided by the UK government, whilst helpful. 
+                Often time comes in difficult to use maps, or from extremely large and untested data-sets, which made developing this site a difficult task.
+                <br><br>
+                Whilst since September the Government has streamlined the process of finding data-sets, it doesn't change the fact that the data-sets are often difficult to relate to
+                one another. This means some graphs may be more detailed than others, or provide more information than others. 
+                <br><br>
+                If I had more time to go through each dataset by hand, I would do. 
+                But unfortunately, as I only had one school year to create this project I had to cherry pick datasets that both looked nice, and worked well
+                with Chart.JS.
+                <br><br>
+                <u>(This will be discussed in-depth in the report.)</u>
+            </p>
+        </div>
+        <div class="textBox">
+            <h1>Technologies Used</h1>
+            <p>
+                <a href=https://www.chartjs.org>Chart.js</a>
+                <br>
+                <a href="https://d3js.org/">D3 (only for parsing of CSV data)</a>
+                <br>
+                Base HTML 5 + CSS 
+                <br>
+                <a href="https://fonts.google.com/specimen/Michroma">Michroma Google Font</a>
+                <br>
+                <a href="https://www.data.gov.uk/">Data Collected From data.gov.uk</a>
+            </p>
+        </div>
+    </body>
+</html>

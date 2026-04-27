@@ -1,0 +1,90 @@
+body {
+    font-family: 'Michroma';font-size: 15px;
+    background-color: #222222;
+    color:white;
+}
+
+a {
+    color:white;
+    font-weight: bold;
+    text-decoration: none;;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+.textBox{
+   border-style: ridge;
+   text-align: center;
+   margin: 5%;
+   background-color: #333;
+}
+
+.textBoxMapping{
+   border-style: ridge;
+   text-align: center;
+   margin-top: 5%;
+   background-color: #333;
+}
+
+.mappingTitle{
+    text-align: center;
+}
+
+.chart{
+    background-color: white;
+}
+.chartBig{
+    background-color: white;
+    margin-left: 10%;
+    margin-right: 10%;    
+}
+
+
+
+.chartFlex{
+
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap:5px
+}
+
+.dataBtns{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-bottom: 5%;
+    
+}
+
+.dataButton{
+    background-color: #333;
+    color: white;
+    font-size: 35px;
+    cursor: pointer;
+    width: 200px;
+
+}
+
+ul.navigationBar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+  
+}
+
+ul.navigationBar li{float: left;}
+
+ul.navigationBar li a {
+    display:block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+ul.navigationBar li a.active {background-color: dodgerblue;}
+ul.navigationBar li.right {float: right;}
